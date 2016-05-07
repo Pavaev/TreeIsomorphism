@@ -40,7 +40,7 @@ public class RootedTree {
             }
         }
 
-        //mark leaves: 0 = is't leave
+        //mark leaves: 0 = it's leave
         if (isMark == false) {
             node.setMark(0);
         }
