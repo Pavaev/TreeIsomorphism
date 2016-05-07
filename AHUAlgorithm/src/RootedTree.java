@@ -48,7 +48,7 @@ public class RootedTree {
         return nodes;
     }
 
-    //strange generation, I don't fully understand how is it works.
+    //strange generation, I don't fully understand how it is works.
     static int[][] generate(int size) {
         int[][] temp = new int[size][size];
         Random rand = new Random(System.currentTimeMillis());
