@@ -4,7 +4,7 @@
  */
 public class Main {
     public static void main(String[] args) {
-        TreeGeneration.generate();
+        RootedTree tree = new RootedTree(5);
     }
 }
 
