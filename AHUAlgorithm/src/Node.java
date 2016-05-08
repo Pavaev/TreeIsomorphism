@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Daniel Shchepetov on 07.05.2016.
  */
-public class Node {
+public class Node  implements Cloneable {
     private int parent;
     private ArrayList children;
     private int value;

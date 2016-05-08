@@ -4,5 +4,7 @@
 public class AHUalgorithm {
 
 
+    public static void getResult(RootedTree tree1, RootedTree tree2) {
 
+    }
 }

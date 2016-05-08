@@ -1,18 +1,17 @@
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.Random;
 
 /**
  * Created by Daniel Shchepetov on 07.05.2016.
  */
-public class RootedTree {
+public class RootedTree implements Cloneable {
     public int[][] graph;
-    ArrayList<Node> nodes = new ArrayList<>();
+    ArrayList<ArrayList<Node>> nodes = new ArrayList<>();
 
-    //for sorting by levels
-    Comparator comp = new Comparator();
-
+    public RootedTree(RootedTree tree) {
+        this.nodes = (ArrayList<ArrayList<Node>>) tree.nodes.clone();
+        this.graph = tree.graph;
+    }
 
     public RootedTree(int size) {
         graph = generate(size);
@@ -22,29 +21,40 @@ public class RootedTree {
         //get nodes with marked leaves
         nodes = getNodes(graph, root, level);
 
-        //sorting by levels
-        Collections.sort(nodes, comp);
-        for (int j = 0; j < nodes.size(); j++) {
-            System.out.println(nodes.get(j).getValue() + " " + nodes.get(j).getLevel()+" "+nodes.get(j).getMark());
-        }
+      /*  for (int j = 0; j < nodes.size(); j++) {
+            ArrayList<Node> list = nodes.get(j);
+            System.out.println("__________________________________________________________");
+            for (int q = 0; q < list.size(); q++) {
+                System.out.println(list.get(q).getValue() + " " + list.get(q).getLevel() + " " + list.get(q).getMark() + " " + j);
+            }
+
+        } */
     }
 
-    private ArrayList<Node> getNodes(int[][] graph, int tempNode, int level) {
-        boolean isMark = false;
+    private ArrayList<ArrayList<Node>> getNodes(int[][] graph, int tempNode, int level) {
+        boolean notLeave = false;
         Node node = new Node(tempNode);
         node.setLevel(level);
+
+        //if ArrayList for current level doesn't exist, create it
+        if (nodes.size() - 1 < level) {
+            ArrayList<Node> levelList = new ArrayList<Node>();
+            nodes.add(levelList);
+        }
         for (int i = 1; i < graph.length; i++) {
             if (graph[tempNode][i] == 1) {
-                isMark = true;
+                notLeave = true;
                 getNodes(graph, i, level + 1);
             }
         }
 
-        //mark leaves: 0 = it's leave
-        if (isMark == false) {
+        //mark leaves: 0 = is leave
+        if (notLeave == false) {
             node.setMark(0);
         }
-        nodes.add(node);
+        nodes.get(level).add(node);
+
+
         return nodes;
     }
 
@@ -64,7 +74,7 @@ public class RootedTree {
                 }
             }
         }
-        /*
+/*
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
 
