@@ -8,6 +8,8 @@ public class RootedTree implements Cloneable {
     public int[][] graph;
     ArrayList<ArrayList<Node>> nodes = new ArrayList<>();
 
+
+    //constructor for copying
     public RootedTree(RootedTree tree) {
         this.nodes = (ArrayList<ArrayList<Node>>) tree.nodes.clone();
         this.graph = tree.graph;
@@ -17,25 +19,27 @@ public class RootedTree implements Cloneable {
         graph = generate(size);
         int root = 0;
         int level = 0;
-
+        Node parent = new Node(0);
         //get nodes with marked leaves
-        nodes = getNodes(graph, root, level);
+        nodes = getNodes(graph, root, level, parent);
 
-      /*  for (int j = 0; j < nodes.size(); j++) {
+        for (int j = 0; j < nodes.size(); j++) {
             ArrayList<Node> list = nodes.get(j);
             System.out.println("__________________________________________________________");
             for (int q = 0; q < list.size(); q++) {
-                System.out.println(list.get(q).getValue() + " " + list.get(q).getLevel() + " " + list.get(q).getMark() + " " + j);
+                System.out.println("Parent: " + list.get(q).getValue() + " " + list.get(q).getLevel() + " " + list.get(q).getMark() + " " + j);
+                for (int i = 0; i < list.get(q).getChildren().size(); i++) {
+                    System.out.println("Child: " + list.get(q).getChildren().get(i).getValue());
+                }
             }
 
-        } */
+        }
     }
 
-    private ArrayList<ArrayList<Node>> getNodes(int[][] graph, int tempNode, int level) {
+    private ArrayList<ArrayList<Node>> getNodes(int[][] graph, int tempNode, int level, Node parent) {
         boolean notLeave = false;
         Node node = new Node(tempNode);
         node.setLevel(level);
-
         //if ArrayList for current level doesn't exist, create it
         if (nodes.size() - 1 < level) {
             ArrayList<Node> levelList = new ArrayList<Node>();
@@ -44,17 +48,18 @@ public class RootedTree implements Cloneable {
         for (int i = 1; i < graph.length; i++) {
             if (graph[tempNode][i] == 1) {
                 notLeave = true;
-                getNodes(graph, i, level + 1);
+                getNodes(graph, i, level + 1, node);
             }
         }
 
         //mark leaves: 0 = is leave
         if (notLeave == false) {
-            node.setMark(0);
+            node.setMark("0");
         }
+
         nodes.get(level).add(node);
 
-
+        parent.setChild(node);
         return nodes;
     }
 
