@@ -1,6 +1,8 @@
 /**
  * Created by Daniel Shchepetov on 08.05.2016.
  */
+
+//for sorting
 public class MarkComparator implements java.util.Comparator<Node> {
 
     @Override
